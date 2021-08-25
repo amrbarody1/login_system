@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948806690375",
+    "project_id": "login-system-be61c",
+    "storage_bucket": "login-system-be61c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948806690375:android:ef14dd6c00cdf46dd6b362",
+        "android_client_info": {
+          "package_name": "com.example.login_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948806690375-qehebg708etv0mopv13g1rfhecer9gio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL4nO6mHto1u6KHo--KvqL1e0i0Cffu-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948806690375-qehebg708etv0mopv13g1rfhecer9gio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

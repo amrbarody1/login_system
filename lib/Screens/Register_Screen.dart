@@ -23,8 +23,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController;
-  TextEditingController passwordController;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   bool _success;
   String _userEmail = '';

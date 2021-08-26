@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:login_system/Api/apiLogin.dart';
 import 'package:login_system/Screens/Lang_Screen.dart';
 import 'package:login_system/Screens/Main_Screen.dart';
@@ -30,8 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController;
-  TextEditingController passwordController;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
 
   Widget build(BuildContext context) {
@@ -172,6 +174,67 @@ class _LoginScreenState extends State<LoginScreen> {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to sign in with Email & Password'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _signInAnonymously() async {
+    try {
+      final User user = (await _auth.signInAnonymously()).user;
+      setState(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()),
+        );
+      });
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Signed in Anonymously as user ${user.uid}'),
+        ),
+      );
+    } catch (e) {
+      Scaffold.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to sign in Anonymously'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      UserCredential userCredential;
+
+      if (kIsWeb) {
+        var googleProvider = GoogleAuthProvider();
+        userCredential = await _auth.signInWithPopup(googleProvider);
+        setState(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+          );
+        });
+      } else {
+        final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+        final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+        final googleAuthCredential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        userCredential = await _auth.signInWithCredential(googleAuthCredential);
+      }
+
+      final user = userCredential.user;
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Sign In ${user.uid} with Google'),
+      ));
+    } catch (e) {
+      print(e);
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to sign in with Google: $e'),
         ),
       );
     }
